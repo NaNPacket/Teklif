@@ -11,6 +11,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #ff69b4, #ff1493);
+      overflow: hidden;
     }
     
     .proposal {
@@ -20,6 +21,7 @@
       border-radius: 1rem;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       margin: 1rem;
+      z-index: 1;
     }
     
     h1 {
@@ -57,6 +59,26 @@
       background: #gray;
       position: relative;
     }
+
+    .heart {
+      position: fixed;
+      font-size: 2rem;
+      user-select: none;
+      pointer-events: none;
+      animation: float 4s ease-in-out;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(2);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -86,7 +108,25 @@
     
     yesBtn.addEventListener('click', () => {
       alert('Yayyy! ❤️');
+      createHearts(30);
     });
+
+    function createHearts(count) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.innerHTML = '❤️';
+          heart.style.left = Math.random() * window.innerWidth + 'px';
+          heart.style.bottom = '0';
+          document.body.appendChild(heart);
+
+          heart.addEventListener('animationend', () => {
+            heart.remove();
+          });
+        }, i * 100);
+      }
+    }
   </script>
 </body>
 </html>
